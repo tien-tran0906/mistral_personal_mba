@@ -1,5 +1,5 @@
 ## Step 0:
-Enable virtual environment
+Enable virtual environment (conda or env)
 
 ## Step 1:
 pip install -r requirements.txt
@@ -15,6 +15,6 @@ then add your own document in this folder
 python ingest.py
 
 # Step 5:
-python main.py
+streamlit run main.py
 
 
