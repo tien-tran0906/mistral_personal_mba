@@ -1,4 +1,5 @@
-*.db
+/db
 *.py[cod]
 .web
 __pycache__/
+Makefile

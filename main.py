@@ -78,13 +78,14 @@ def show_examples():
     
 def main():
     setup_page()
+    show_examples()
+    initialize_session()
     model, embeddings_model_name, persist_directory, target_source_chunks = get_environment_variables()
     retriever = create_knowledge_base(embeddings_model_name, persist_directory, target_source_chunks)
     
-    query = st.chat_input(placeholder='Ask a question...')
+    query = st.chat_input(placeholder='Ask a question...')  # starting with empty query
 
-
-    if query:
+    if query:   # if user input a query and hit 'Enter'
         answer = handle_query(query, model, retriever)
         
         st.session_state.messages.append({
