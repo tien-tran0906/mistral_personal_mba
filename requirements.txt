@@ -128,6 +128,7 @@ PyMuPDFb==1.23.5
 pypandoc==1.11
 pyparsing==2.4.7
 PyPika==0.48.9
+pysqlite3==0.5.2
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-engineio==4.8.1
