@@ -5,6 +5,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 from langchain.llms import Ollama
 import os
+import sqlite3
 from constants import CHROMA_SETTINGS
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
