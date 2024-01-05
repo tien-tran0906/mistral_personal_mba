@@ -5,7 +5,7 @@ run: install
 freeze:
 	pip freeze > requirements.txt
 run-streamlit:
-	streamlit run main.py
+	streamlit run app.py
 remove-origin:
 	git remote remove origin
 add-remote:
