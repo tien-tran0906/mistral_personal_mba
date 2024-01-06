@@ -2,6 +2,8 @@
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
+# modify comment
+
 import streamlit as st
 from langchain.llms import Ollama
 import os
@@ -19,6 +21,7 @@ class StreamHandler(BaseCallbackHandler):
         self.container = container
         self.text=initial_text
     def on_llm_new_token(self, token: str, **kwargs) -> None:
+
         self.text+=token+"" 
         self.container.markdown(self.text)
 
@@ -83,34 +86,32 @@ def show_examples():
             st.markdown('Example questions:')
             st.markdown(' - How do I know that I am making the right decisions?')
             st.markdown(' - What are the key ideas in Chapter 6 "The Human Mind"?')
-            st.markdown(' - What are common traits shared by the most successful individuals in the world?')
+            st.markdown(' - What are common traits shared by the most sucessful individuals in the world?')
             st.markdown(' - I want to be a millionaire, build me a 5 year roadmap based on the top 0.01 percent of the human population.')
             st.markdown('So, how may I help you today?')
-    return examples
 
     
 def main():
     setup_page()
+    show_examples()
     initialize_session()
-
-    examples = show_examples()
     model, embeddings_model_name, persist_directory, target_source_chunks = get_environment_variables()
     retriever = create_knowledge_base(embeddings_model_name, persist_directory, target_source_chunks)
     
     query = st.chat_input(placeholder='Ask a question...')  # starting with empty query
 
     if query:   # if user input a query and hit 'Enter'
-        examples.empty()    # clear the example box
-        with st.chat_message('user'):
-            st.markdown(query)
-        st.session_state.messages.append({'role': 'user', 'content': query})
-
         answer = handle_query(query, model, retriever)
         
-
-        st.session_state.messages.append({'role': 'assistant', 'content': answer})
-
-        # display_messages()
+        st.session_state.messages.append({  # add the query into session state/ dictionary
+            'role': 'user', 
+            'content': query
+        })
+        st.session_state.messages.append({  # add the answer into session state/ dictionary
+             'role': 'assistant',
+             'content': answer  
+        })
+        display_messages()
 
 if __name__ == "__main__":
     main()

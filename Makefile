@@ -12,7 +12,7 @@ add-remote:
 	git remote add origin $(REPO_URL)	
 	git remote -v
 add-all:
-	git add .	
-push:
+	git add .
+	git commit -m '$(msg)'
 	git push
-	
+
