@@ -7,10 +7,12 @@
 import streamlit as st
 from langchain.llms import Ollama
 import os
-import sqlite3
+import chromadb
 from constants import CHROMA_SETTINGS
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
+from chromadb.config import Settings
+
 from langchain.vectorstores import Chroma
 from langchain.llms import Ollama
 from langchain.callbacks.base import BaseCallbackHandler
@@ -57,15 +59,17 @@ def create_knowledge_base(embeddings_model_name, persist_directory, target_sourc
 
 # handle query when user hit 'enter' on a question
 def handle_query(query, model, retriever):
-    with st.spinner("Generating answer..."):
-        message_placeholder = st.empty()
-        stream_handler = StreamHandler(message_placeholder)  
-        llm = Ollama(model=model, callbacks=[stream_handler])
-        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=False)
-        res = qa(query)
-        answer = res['result']
-        message_placeholder.markdown(answer)
-        return answer
+    with st.chat_message('assistant'):
+
+        with st.spinner("Generating answer..."):
+            message_placeholder = st.empty()
+            stream_handler = StreamHandler(message_placeholder)  
+            llm = Ollama(model=model, callbacks=[stream_handler])
+            qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=False)
+            res = qa(query)
+            answer = res['result']
+            message_placeholder.markdown(answer)
+            return answer
 
 # dictionary to store the previous messages, create a 'memory' for the LLM
 def initialize_session():
@@ -89,29 +93,37 @@ def show_examples():
             st.markdown(' - What are common traits shared by the most sucessful individuals in the world?')
             st.markdown(' - I want to be a millionaire, build me a 5 year roadmap based on the top 0.01 percent of the human population.')
             st.markdown('So, how may I help you today?')
+    return examples
 
     
 def main():
     setup_page()
-    show_examples()
     initialize_session()
+    display_messages()
+    examples = show_examples()
     model, embeddings_model_name, persist_directory, target_source_chunks = get_environment_variables()
     retriever = create_knowledge_base(embeddings_model_name, persist_directory, target_source_chunks)
     
     query = st.chat_input(placeholder='Ask a question...')  # starting with empty query
 
     if query:   # if user input a query and hit 'Enter'
-        answer = handle_query(query, model, retriever)
-        
+        examples.empty()
+
         st.session_state.messages.append({  # add the query into session state/ dictionary
             'role': 'user', 
             'content': query
         })
+
+        with st.chat_message('user'):
+            st.markdown(query)
+
+        answer = handle_query(query, model, retriever)
+
         st.session_state.messages.append({  # add the answer into session state/ dictionary
              'role': 'assistant',
              'content': answer  
         })
-        display_messages()
+    # display_messages()
 
 if __name__ == "__main__":
     main()

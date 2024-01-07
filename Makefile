@@ -11,8 +11,12 @@ remove-origin:
 add-remote:
 	git remote add origin $(REPO_URL)	
 	git remote -v
+# make msg="mesage_here" add-all
 add-all:
 	git add .
 	git commit -m '$(msg)'
 	git push
-
+create-env:
+	conda create -n '$(name)'
+remote-env:
+	conda env remove -n '$(name)'

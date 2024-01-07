@@ -1,7 +1,6 @@
 #python3.11.5
 langchain==0.0.274
 chromadb==0.4.7
-# llama-cpp-python==0.1.81
 urllib3==2.0.4
 PyMuPDF==1.23.5
 python-dotenv==1.0.0
