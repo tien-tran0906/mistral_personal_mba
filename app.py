@@ -123,7 +123,6 @@ def main():
              'role': 'assistant',
              'content': answer  
         })
-    # display_messages()
 
 if __name__ == "__main__":
     main()
