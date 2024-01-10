@@ -1,10 +1,6 @@
-title: Notux Chat
-emoji: 💨
-colorFrom: indigo
-colorTo: blue
-sdk: docker
-pinned: true
-app_port: 3000
-license: mit
-models:
-  - mistral 7B
+# Business Assistant using Mistral 7B
+## 1. Clone the project
+## 2. Enable virtual environment
+## 3. Install the pip packages
+## 4. Run ```python ingest.py```
+## 5. Run ```streamlit run app.py```
