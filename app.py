@@ -8,7 +8,6 @@ import streamlit as st
 from langchain.llms import Ollama
 import os
 import chromadb
-from constants import CHROMA_SETTINGS
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
 from chromadb.config import Settings
